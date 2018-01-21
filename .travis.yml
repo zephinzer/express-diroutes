@@ -1,0 +1,53 @@
+sudo: required
+language: node_js
+node_js:
+  - "6"
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+notifications:
+  email:
+    - dev@joeir.net
+
+stages:
+  - test
+  - release
+  - publish
+
+jobs:
+  include:
+    - stage: test
+      env:
+        - TYPE: functional
+        - ON: javascript
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+      script:
+        - set -e
+        - npm run mocha
+      after_script:
+        - ./cc-test-reporter after-build -r "${CC_TOKEN}" --coverage-input-type lcov --exit-code ${TRAVIS_TEST_RESULT}
+    - stage: release
+      env:
+        - TO: github
+      script:
+        - set -e
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+            git checkout ${TRAVIS_BRANCH};
+            COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%B");
+            if [[ $COMMIT_MESSAGE == *"[major version bump]"* ]]; then
+              ./scripts/versioning/iterate major -i -q;
+            elif [[ $COMMIT_MESSAGE == *"[minor version bump]"* ]]; then
+              ./scripts/versioning/iterate minor -i -q;
+            else
+              ./scripts/versioning/iterate -i -q;
+            fi;
+            git push -q https://zephinzer:${GH_TOKEN}@github.com/zephinzer/express-diroutes.git --tags;
+          fi;

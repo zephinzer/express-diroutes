@@ -1,0 +1,8 @@
+--check-leaks
+--colors
+--exit
+--full-trace
+--recursive
+--trace-deprecation
+--trace-warnings
+--ui bdd
