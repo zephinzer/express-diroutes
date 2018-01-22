@@ -43,7 +43,13 @@ function expressDiroutes({
       from: new RegExp(`{${replacement[0]}}`, 'gi'),
       to: replacement[1],
   }));
-  const options = {silent, logger, routeStringMap, routeStringMapping};
+  const options = {
+    allowedMethods,
+    silent,
+    logger,
+    routeStringMap,
+    routeStringMapping,
+  };
   const _router = new express.Router();
   const routeHandlers = findRoutesAndSources(
     {allowedFileNames, rootPath, routePath, options}
