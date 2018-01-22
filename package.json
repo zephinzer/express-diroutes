@@ -1,7 +1,7 @@
 {
   "name": "express-diroutes",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.0.3",
+  "description": "A simple package to generate an Express middleware router given a directory structure.",
   "main": "index.js",
   "scripts": {
     "eslint": "./node_modules/.bin/eslint .",

@@ -6,7 +6,7 @@
 
 ## What's This?
 
-A simple package to generate a router given a directory structure.
+A simple package to generate an Express middleware router given a directory structure.
 
 ## Usage
 
