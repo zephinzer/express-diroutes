@@ -14,6 +14,15 @@ describe('explorer', () => {
       to: replacement[1],
   }));
 
+  it('exports the correct keys', () => {
+    expect(explorer).to.have.keys([
+      'findRoutesAndSources',
+      'separateDirectoriesAndFiles',
+    ]);
+    expect(explorer.findRoutesAndSources).to.be.a('function');
+    expect(explorer.separateDirectoriesAndFiles).to.be.a('function');
+  });
+
   describe('.findRoutesAndSources()', () => {
     it('works as expected', () => {
       const observed = explorer.findRoutesAndSources({
